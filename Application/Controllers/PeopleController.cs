@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using WebApplication2.Service;
 
 namespace WebApplication2.Controllers
 {
@@ -8,6 +9,13 @@ namespace WebApplication2.Controllers
     [ApiController]
     public class PeopleController : ControllerBase
     {
+        private IPeopleService _peopleService;
+
+        public PeopleController()
+        {
+            _peopleService = new PeopleService();
+        }
+        
         [HttpGet("all")]
         public List<People> GetPeople() => Repository.People;
 
@@ -30,7 +38,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public IActionResult Add(People people)
         {
-            if (string.IsNullOrEmpty(people.Name))
+            if (_peopleService.Validate(people))
             {
                 return BadRequest();
             }
