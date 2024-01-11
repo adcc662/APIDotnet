@@ -11,7 +11,7 @@ namespace WebApplication2.Controllers
     {
         private IPeopleService _peopleService;
 
-        public PeopleController(IPeopleService peopleService)
+        public PeopleController([FromKeyedServices("peopleTwoService")] IPeopleService peopleService)
         {
             _peopleService = peopleService;
         }
@@ -38,7 +38,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public IActionResult Add(People people)
         {
-            if (_peopleService.Validate(people))
+            if (!_peopleService.Validate(people))
             {
                 return BadRequest();
             }

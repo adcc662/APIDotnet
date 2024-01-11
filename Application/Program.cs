@@ -4,8 +4,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-builder.Services.AddSingleton<IPeopleService, PeopleTwoService>();
+//builder.Services.AddSingleton<IPeopleService, PeopleTwoService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddKeyedSingleton<IPeopleService, PeopleService>("peopleService");
+builder.Services.AddKeyedSingleton<IPeopleService, PeopleTwoService>("peopleTwoService");
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
